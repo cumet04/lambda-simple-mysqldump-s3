@@ -25,7 +25,7 @@ services:
     image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ROOT_PASSWORD: password
     volumes:
       - db:/var/lib/mysql
 
