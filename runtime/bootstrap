@@ -1,9 +1,13 @@
 #!/bin/sh
 
+# refs https://docs.aws.amazon.com/lambda/latest/dg/runtimes-walkthrough.html
+
 set -euo pipefail
 
 # Initialization - load function handler
 source $LAMBDA_TASK_ROOT/"$(echo $_HANDLER | cut -d. -f1).sh"
+
+yum install -y gzip awscli mariadb >/dev/null
 
 # Processing
 while true
