@@ -7,6 +7,10 @@ services:
     volumes:
       - ./runtime:/var/runtime
       - ./task:/var/task
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
 
   invoker:
     image: curlimages/curl

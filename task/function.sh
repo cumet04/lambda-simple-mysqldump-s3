@@ -1,7 +1,9 @@
 function handler () {
-  EVENT_DATA=$1
-  echo "$EVENT_DATA" 1>&2;
-  RESPONSE="Echoing request: '$EVENT_DATA'"
+  filename=$(date '+%Y-%m-%d_%H%M%S').sql.gz
 
-  echo $RESPONSE
+  mysqldump -u root -h db db | \
+    gzip | \
+    aws s3 cp - s3://sbox-lambda-simple-mysqldump-s3/dump/$filename
+
+  echo $filename
 }
