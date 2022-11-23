@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  lambda:
+    image: public.ecr.aws/lambda/provided:al2.2022.11.15.11
+    command: function.handler
+    volumes:
+      - ./runtime:/var/runtime
+      - ./task:/var/task
+
+  invoker:
+    image: curlimages/curl
+    command: sh -c 'curl -s -XPOST "$$URL" -d "$$DATA"; echo ""'
+    environment:
+      - URL=http://lambda:8080/2015-03-31/functions/function/invocations
+      - DATA={"payload":"hello world!"}
+    depends_on:
+      - lambda
