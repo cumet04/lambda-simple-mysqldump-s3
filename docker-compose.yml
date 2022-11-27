@@ -2,7 +2,8 @@ version: "3"
 
 services:
   lambda:
-    image: public.ecr.aws/lambda/provided:al2.2022.11.15.11
+    build:
+      context: .
     command: function.handler
     volumes:
       - ./runtime:/var/runtime

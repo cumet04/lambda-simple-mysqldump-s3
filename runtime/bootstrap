@@ -7,8 +7,6 @@ set -euo pipefail
 # Initialization - load function handler
 source $LAMBDA_TASK_ROOT/"$(echo $_HANDLER | cut -d. -f1).sh"
 
-yum install -y gzip awscli mariadb >/dev/null
-
 function getparam() {
   aws ssm get-parameter --with-decryption --region ap-northeast-1 --name $1 --query 'Parameter.Value' --output text
 }
