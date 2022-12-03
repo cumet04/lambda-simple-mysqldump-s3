@@ -1,6 +1,3 @@
-# AmazonLinux2ベースのイメージでありmysqlパッケージは無い。のでmysqldumpはmariadbのもので代用
-yum install -y gzip awscli mariadb
-
 # オプションが長すぎるので関数にしてわかりやすくする
 function getparam() {
   aws ssm get-parameter --with-decryption --region ap-northeast-1 --name $1 --query 'Parameter.Value' --output text

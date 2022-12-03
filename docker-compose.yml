@@ -2,7 +2,8 @@ version: "3"
 
 services:
   lambda:
-    image: public.ecr.aws/lambda/provided:al2
+    build:
+      context: .
     command: function.handler
     volumes:
       # bootstrap と function.sh はそれぞれ /var/runtime/ と /var/task/ 配下に設置する必要があり
