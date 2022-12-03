@@ -2,17 +2,21 @@ version: "3"
 
 services:
   lambda:
-    build:
-      context: .
+    image: public.ecr.aws/lambda/provided:al2
     command: function.handler
     volumes:
+      # bootstrap と function.sh はそれぞれ /var/runtime/ と /var/task/ 配下に設置する必要があり
+      # その事情に合わせるためにローカルのディレクトリでもそのようなファイル配置にしている
       - ./runtime:/var/runtime
       - ./task:/var/task
     environment:
+      # awscliの認証情報はdocker compose実行元から環境変数で渡す想定
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - AWS_SESSION_TOKEN
 
+  # ベースイメージのUsageによると、このイメージはコンテナの外からcurlすることで発火できるとのことなので
+  # 発火用のコンテナ（というよりコマンドスニペット）もcompose内に用意する
   invoker:
     image: curlimages/curl
     command: sh -c 'curl -s -XPOST "$$URL" -d "$$DATA"; echo ""'
@@ -24,6 +28,7 @@ services:
 
   db:
     image: mysql:8.0
+    # mysql:8.0 ではCLIで雑にパスワード認証する場合はこのオプションが必要
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: password

@@ -1,19 +1,9 @@
 #!/bin/sh
 
-# refs https://docs.aws.amazon.com/lambda/latest/dg/runtimes-walkthrough.html
-
 set -euo pipefail
 
 # Initialization - load function handler
 source $LAMBDA_TASK_ROOT/"$(echo $_HANDLER | cut -d. -f1).sh"
-
-function getparam() {
-  aws ssm get-parameter --with-decryption --region ap-northeast-1 --name $1 --query 'Parameter.Value' --output text
-}
-export DBUSER=$(getparam sbox-mysqldump-dbuser)
-export DBHOST=$(getparam sbox-mysqldump-dbhost)
-export DBNAME=$(getparam sbox-mysqldump-dbname)
-export DBPASS=$(getparam sbox-mysqldump-dbpass)
 
 # Processing
 while true
