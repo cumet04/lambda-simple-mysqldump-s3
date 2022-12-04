@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# refs https://docs.aws.amazon.com/lambda/latest/dg/runtimes-walkthrough.html
+
 set -euo pipefail
 
 # Initialization - load function handler
